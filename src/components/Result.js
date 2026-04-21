@@ -1,16 +1,18 @@
-import Title from "./Title";
-//import Image from "next/image";
+import { Section, SubTitle, Title } from "@/components";
 
-export default function Result({
+function Result({
     response
 }){
 
     if(!response) return (null)
 
     return (
-        <div className="w-full p-3 bg-gray-100 dark:bg-stone-800 border-solid border-1 flex flex-col rounded-xl">
+        <Section>
             <Title title={response.title}/>
-            <h3 className="text-sm text-blue-700 dark:text-yellow-100">{response.date}</h3>
+            <SubTitle 
+                title={response.date}   
+                className="text-sm text-blue-700 dark:text-yellow-100"
+            ></SubTitle>
             <p>{response.explanation}</p>
 
             {response.media_type === 'image' ? (
@@ -20,14 +22,24 @@ export default function Result({
                     alt="Imagen NASA APOD"
                 />
             ): (
-                <span>URL Media: 
-                    <a href={response.url} target="blank" className="font-bold text-blue-600 dark:text-blue-200"> {response.url}</a>
-                </span>
+                <>
+                    <span>URL Media: 
+                        <a href={response.url} target="_blank" className="font-bold text-blue-600 dark:text-blue-200"> {response.url}</a>
+                    </span>
+                    <iframe 
+                        src={response.url}
+                        title="Media"
+                        className="w-full h-96"
+                        allowFullScreen
+                    />
+                </>
             )}
 
-            <span className="text-xs text-end ml-50">
+            <span className="text-xs text-end ml-10">
                 <span className="font-bold">Copyright:</span> {response.copyright ? response.copyright : "Uso Libre"}
             </span>
-        </div>
+        </Section>
     )
 }
+
+export { Result };

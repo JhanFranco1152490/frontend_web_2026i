@@ -1,4 +1,4 @@
-export default function RadioButton({
+function RadioButton({
   id,
   name,
   value,
@@ -21,3 +21,5 @@ export default function RadioButton({
     </label>
   );
 }
+
+export {RadioButton}

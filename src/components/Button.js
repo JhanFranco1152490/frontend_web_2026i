@@ -1,4 +1,4 @@
-export default function Button({
+function Button({
   children,
   type = "button",
   variant = "primary",
@@ -23,3 +23,5 @@ export default function Button({
     </button>
   );
 }
+
+export {Button}

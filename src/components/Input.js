@@ -1,4 +1,4 @@
-export default function Input({
+function Input({
   id,
   label,
   error,
@@ -25,3 +25,5 @@ export default function Input({
     </div>
   );
 }
+
+export {Input}

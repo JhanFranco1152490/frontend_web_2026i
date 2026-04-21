@@ -1,35 +1,60 @@
 "use client";
-import {Form, Result } from "@/components";
-import Title from "@/components/Title";
+import PageUI from "@/components/PageUI";
 import { useState } from "react";
 
 export default function Home() {
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY; //joTsS29PsAhmLhUyAOBO89ld0VGVbkIkv3Jst0bm
+  
   const [response, setResponse] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [opcion, setOpcion] = useState("today")
+  const [inputValue, setInputValue] = useState("")
 
+  async function consumirAPI(){
+      setLoading(true)
+
+      let urlAPI = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}` 
+      if(opcion==="date")urlAPI+=`&date=${inputValue}`
+      else if(opcion==="count"){
+        if(inputValue<1 || inputValue>10){
+            setError("Usa el rango valido")
+            setLoading(false)
+            return
+        }
+        urlAPI+=`&count=${inputValue}`
+      }
+      
+      try{
+          let response = await fetch(urlAPI)
+          let data = await response.json()
+          if(data.msg)setError(data.msg)
+          else setError(null)
+          setResponse(data)
+      }
+      catch(err){
+          setError("Error de Conexion")
+      }
+      finally{
+          setLoading(false)
+      }
+  }
+
+  const limpiarResultado = () => {
+      setResponse(null)
+      setLoading(false)
+  }
+  
   return (
-      <main className="w-full max-w-3xl py-8 px-12 flex flex-1 flex-col items-center bg-white dark:bg-black sm:items-start">
-        <div className="w-full p-10 grow flex flex-col items-center gap-6 text-center border rounded-xl shadow-l sm:items-start sm:text-left dark:border-white">
-          <h1 className="max-w-s text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            Ejercicio React: NASA APOD 
-          </h1>
-          
-          <Form title="Consulta la API de NASA APOD" 
-            setResponse={setResponse}
-            error={error}
-            setError={setError}
-            setLoading={setLoading}
-          />
-
-          {loading && <Title title={"Cargando..."}/>}
-
-          {!error && response && (
-            Array.isArray(response)
-            ? response.map((res) => <Result key={res.date} response={res}/>)
-            : <Result response={response}/>
-          )}
-        </div>
-      </main>
+    <PageUI
+      response={response}
+      error={error}
+      loading={loading}
+      opcion={opcion}
+      setOpcion={setOpcion}
+      setInputValue={setInputValue}
+      consumirAPI={consumirAPI}
+      limpiarResultado={limpiarResultado}
+    ></PageUI>
   );
 }
