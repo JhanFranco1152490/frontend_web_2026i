@@ -1,5 +1,5 @@
 import { RadioButton } from "@/components"
-import { ApodContext } from "@/hooks/ApodContext"
+import { ApodContext } from "@/context/ApodContext"
 import { useContext } from "react"
 
 function RadioButtonSection({

@@ -1,6 +1,6 @@
 "use client";
 import PageUI from "@/components/PageUI";
-import { ApodProvider } from "@/hooks/ApodContext";
+import { ApodProvider } from "@/context/ApodContext";
 
 export default function Home() {
   

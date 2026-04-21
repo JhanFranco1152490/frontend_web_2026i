@@ -1,5 +1,5 @@
 import { Button, Form, Input, MainTitle, RadioButtonSection, Result, Section, SubTitle, Title } from "@/components";
-import { ApodContext } from "@/hooks/ApodContext";
+import { ApodContext } from "@/context/ApodContext";
 import { useContext } from "react";
 
 
